@@ -115,7 +115,7 @@ shinyServer(function(input, output, session) {
     req(input$mfg)
     req(input$mod)
     list(src = image_location()[[1]],
-         width = "70%",
+         width = "500px",
          contentType = "image/jpeg")
   }
   ,deleteFile = FALSE)
@@ -125,7 +125,7 @@ shinyServer(function(input, output, session) {
     req(input$mfg)
     req(input$mod)
     list(src = image_location()[[2]],
-         height = "70%",
+         height = "300px",
          contentType = "image/jpeg")
   }
   ,deleteFile = FALSE)
@@ -135,7 +135,7 @@ shinyServer(function(input, output, session) {
     req(input$mfg)
     req(input$mod)
     list(src = image_location()[[3]],
-         height = "70%",
+         height = "300px",
          contentType = "image/jpeg")
   }
   ,deleteFile = FALSE)
@@ -145,7 +145,7 @@ shinyServer(function(input, output, session) {
     req(input$mfg)
     req(input$mod)
     list(src = image_location()[[4]],
-         height = "70%",
+         height = "300px",
          contentType = "image/jpeg")
   }
   ,deleteFile = FALSE)

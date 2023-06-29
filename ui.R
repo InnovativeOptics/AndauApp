@@ -23,75 +23,96 @@ dental_data <- readxl::read_excel("Dental_data.xlsx")%>%
 
 # theming options
 andau_theme <- bs_theme(version = 5,
-                        base_font  = font_google("Karla"),
+                        base_font  = font_google("Open Sans"),
                         bg = "white",
                         fg = "#1f0900",
-                        primary = "#ff4d00")
+                        primary = "#6532c3")
 # Define application UI
-shinyUI(page_fluid(theme = andau_theme,
-                   card(card_header(inverse = T,fluidRow(
+shinyUI(page_fluid(
+  titlePanel(
+    windowTitle = "Andau Medical",
+    title = tags$head(tags$link(rel="shortcut icon", 
+                                href="https://static.wixstatic.com/media/fd64a1_04ac9359d46640ed8126959220cd62db~mv2.png/v1/crop/x_347,y_713,w_1310,h_580/fill/w_356,h_165,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Andau%20Medical%20Logo.png", 
+                                type="png"))),
+  theme = andau_theme,
+                   card(class="shadow p-3 mb-5 bg-body rounded",
+                     card_header(inverse = T,fluidRow(
                      column(6,
                             align = 'left',
-                            div(strong("Andau Medical")),
-                                div(a("www.andaumedical.com", href = "https://www.andaumedical.com"))),
+                            h5(a(img(width = "150px",
+                                     src = "https://static.wixstatic.com/media/fd64a1_04ac9359d46640ed8126959220cd62db~mv2.png/v1/crop/x_347,y_713,w_1310,h_580/fill/w_356,h_165,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Andau%20Medical%20Logo.png"), 
+                                 href = "https://www.andaumedical.com"))),
                      column(6, align= 'right',
-                            div("customerservice@andaumedical.com"),
-                            div("1-844-263-2888"))))
+                            h5("customerservice@andaumedical.com"),
+                            h5("1-844-263-2888"))))
                    ,fluidRow(column(12,align='center',
-                                    h3("Search eye protection by selecting a loupe style, and a laser device")))
+                                    h2(strong("Search eye protection by selecting a loupe style, and a laser device"))))
                    ),
-                   card_body(fluidRow(
-                         column(
-                           2,
-                           selectInput(
-                             inputId = "loupestyle",
-                             label = "Loupe Style",
-                             choices = sort(andau_data$`Andau Frame`),
-                             selected = NULL
-                           )
-                         ),
-                         column(
-                           4,
-                           selectInput(
-                             inputId = "mfg",
-                             label = "Laser Manufacturer",
-                             choices = sort(dental_data$`Laser Mfg`),
-                             selected = NULL
-                           )
-                         ),
-                         column(
-                           4,
-                           selectInput(
-                             inputId = "mod",
-                             label = "Model",
-                             choices = dental_data$`Laser Model`,
-                             selected = NULL
-                           )
-                         ),
-                         column(
-                           2,
-                           align = "center",
-                           br(),
-                           actionButton("run",
-                                        "Search",
-                                        class = "btn-primary")
-                         )
-                       )),
+  fluidRow(
+    column(
+      4,
+      align = 'center',
+      selectInput(
+        inputId = "loupestyle",
+        label = h4(strong("Loupe Style")),
+        choices = sort(andau_data$`Andau Frame`),
+        selected = NULL
+      )
+    ),
+    column(
+      4,
+      align = 'center',
+      selectInput(
+        inputId = "mfg",
+        label = h4(strong("Manufacturer")),
+        choices = sort(dental_data$`Laser Mfg`),
+        selected = NULL
+      )
+    ),
+    column(
+      4,
+      align = 'center',
+      selectInput(
+        inputId = "mod",
+        label = h4(strong("Model")),
+        choices = dental_data$`Laser Model`,
+        selected = NULL
+      )
+    )),
+  fluidRow(
+    
+    column(
+      12,
+      align = "center",
+      br(),
+      actionButton("run",
+                   icon = icon("magnifying-glass"),
+                   style='padding-left:50px;padding-right:50px;padding-top:1px;padding-bottom:1px; font-size:80%',
+                   h5(strong("Search")),
+                   class = "btn-primary"))
+  ),
+  br(),
+  fluidRow(
+    column(12,
+           p("Your information not available in the dropdowns? Contact Innovative Optics at (763) 425-7789"))
+  ),
                        conditionalPanel(
                          condition = "input.run",
-                         card_body(fluidRow(column(12, align = "center",
-                                         em("Device Information"),
+                         card(class="shadow p-3 mb-5 bg-body rounded",
+                           fluidRow(column(12, align = "center",
+                                         h3(em("Device Information")),
                                          tableOutput("userInfo"))),
                          fluidRow(column(12,
                                          align = "center", 
-                                         em("Compatible Innovative Optics Product"),
+                                         h3(em("Compatible Innovative Optics Product")),
                                          tableOutput("tableInfo"))),
                          fluidRow(column(12, align = 'center',
                                          imageOutput("productImage")))),
-                         card_body(fluidRow(column(12,
-                                  align = 'left',
-                                  strong("Frequently Purchased Together"))),
-                         fluidRow(
+                         card(class="shadow p-3 mb-5 bg-body rounded",
+                              fluidRow(column(12,
+                                  align = 'center',
+                                  h4(strong("Frequently Purchased Together")))),
+                           fluidRow(
                            column(4, align = 'center',
                              imageOutput("rec1"),
                            tableOutput("tableRec1")),
@@ -102,8 +123,16 @@ shinyUI(page_fluid(theme = andau_theme,
                                   imageOutput("rec3"),
                                   tableOutput("tableRec3")))
                          )),
-                       card(card_footer("Powered by Innovative Optics"))
-                   ))
+                       card(class="shadow p-3 mb-5 bg-body rounded",
+                         card_footer(h5(
+                         style = {
+                           "color: #0FE410;
+                         text-shadow: 1px 1px 1px black;"
+                         },
+                         "Powered by Innovative Optics"))
+                         )
+  )
+                   )
 
 
   # sidebarLayout(
